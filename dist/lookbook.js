@@ -36,14 +36,13 @@ function schedulePaint() {
 function paintSlide(state, local) {
   const { planes, pointerX: x, pointerY: y } = state;
   const turn = clamp(local + .5);
-  const yaw = -.58 + turn * 2.64 + x * .13;
+  const yaw = .58 - turn * 2.64 + x * .13;
   const live = eyewearView.paint(state.canvas, state.element.dataset.model, yaw, .18 - y * .10);
   planes.image.classList.toggle("is-live", live);
-  planes.image.style.transform = `translate(-50%, -50%) translate3d(${local * -37 + x * -18}px, ${Math.sin(local) * 12 - y * 12}px, 30px) rotateY(${live ? 0 : (turn - .5) * 42 + x * 5.8}deg)`;
+  planes.image.style.transform = `translate(-50%, -50%) translate3d(${local * -4 - x * 2}%, ${Math.sin(local) * 12 - y * 12}px, 30px) rotateY(${live ? 0 : (turn - .5) * 42 + x * 5.8}deg)`;
   planes.ground.style.transform = `translate3d(${local * -90 + x * 17}px, ${y * 14}px, -150px)`;
   planes.number.style.transform = `translate3d(${local * 52 + x * 26}px, ${y * 19}px, 20px)`;
   planes.title.style.transform = `translate3d(${local * -26 + x * 13}px, ${y * 7}px, 28px)`;
-  planes.orbit.style.transform = `translate(-50%, -50%) translate3d(${local * 40 + x * 27}px, ${y * 19}px, -40px) rotate(-15deg)`;
   planes.caption.style.transform = `translate3d(${x * 9}px, ${y * 9}px, 20px)`;
   planes.spec.style.transform = `translate3d(${x * 16}px, ${y * 13}px, 40px)`;
 }

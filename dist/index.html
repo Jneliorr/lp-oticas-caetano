@@ -10,7 +10,9 @@
   <link rel="stylesheet" href="estilos.css">
   <script src="assets/three-r128.min.js" defer></script>
   <script src="armacoes-3d.js" defer></script>
+  <!-- Abertura New Wayfarer pausada. Reative este script junto com a seção #abertura.
   <script src="abertura.js" defer></script>
+  -->
   <script src="lookbook.js" defer></script>
   <script src="foco.js" defer></script>
 </head>
@@ -39,6 +41,7 @@
   </header>
 
   <main id="conteudo" tabindex="-1">
+    <!-- Abertura New Wayfarer pausada.
     <section class="opening" id="abertura" aria-labelledby="opening-title">
       <div class="opening-stage inset">
         <a class="wordmark opening-brand" href="#inicio" aria-label="Óticas Caetano, início"><img class="brand-logo" src="assets/logo-caetano.jpg" width="150" height="150" alt=""><span>Óticas <i>Caetano</i></span></a>
@@ -56,18 +59,15 @@
         </div>
       </div>
     </section>
+    -->
 
     <section class="hero" id="inicio" aria-labelledby="hero-title" tabindex="-1">
-      <img class="hero-photo" src="assets/fotoprincipal.jpg" width="1080" height="1350" loading="lazy" alt="Mulher ajustando óculos de sol com armação tartaruga.">
+      <img class="hero-photo" src="assets/fotoprincipal.jpg" width="1080" height="1350" fetchpriority="high" alt="Mulher ajustando óculos de sol com armação tartaruga.">
       <div class="hero-content">
         <p class="eyebrow"><span class="signal"></span> Óculos de grau &amp; sol</p>
         <h1 id="hero-title">Seu olhar,<br><em>sua assinatura.</em></h1>
         <p class="hero-description">Do acetato marcante ao metal delicado. Explore armações que dão outro contorno ao seu olhar.</p>
         <a class="pill pill--orange hero-cta" href="#lookbook">Explorar o lookbook <span class="pill-arrow" aria-hidden="true">↘</span></a>
-      </div>
-      <div class="hero-footer">
-        <a class="scroll-cue" href="#colecao" lang="en">Scroll to inspect <span class="scroll-icon" aria-hidden="true">↓</span></a>
-        <span class="hero-edition micro">Edição 01 <span class="edition-rule" aria-hidden="true"></span><span class="edition-brand">Óticas Caetano</span></span>
       </div>
     </section>
 
@@ -86,9 +86,7 @@
       <section class="conveyor" id="lookbook" aria-label="Lookbook de armações" tabindex="-1">
         <div class="conveyor-sticky">
           <div class="conveyor-ui" aria-hidden="true">
-            <span class="eyebrow"><span class="signal"></span> Campo de visão</span>
             <span class="micro frame-label" id="frame-label">01 / 04 — Tartaruga</span>
-            <span class="micro">Role para girar <span class="accent">↓</span></span>
           </div>
           <div class="catalog-window">
             <div class="track" id="catalog-track">
@@ -96,7 +94,6 @@
                 <div class="slide-index" aria-hidden="true"><span class="micro">Modelo / 01</span><span class="index-number">01</span><span class="micro">Grau</span></div>
                 <div class="slide-stage">
                   <div class="back-type" data-plane="ground" aria-hidden="true">ACETATO</div>
-                  <div class="orbit" data-plane="orbit" aria-hidden="true"></div>
                   <div class="front-type" data-plane="number" aria-hidden="true">01</div>
                   <div class="product" data-plane="image" role="img" aria-label="Óculos de grau quadrados em acetato marrom e âmbar."></div>
                   <div class="slide-title" data-plane="title"><p class="micro">01 / Óculos de grau</p><h3 id="modelo-01">Tartaruga</h3></div>
@@ -108,7 +105,6 @@
                 <div class="slide-index" aria-hidden="true"><span class="micro">Modelo / 02</span><span class="index-number">02</span><span class="micro">Sol</span></div>
                 <div class="slide-stage">
                   <div class="back-type" data-plane="ground" aria-hidden="true">CONTRASTE</div>
-                  <div class="orbit" data-plane="orbit" aria-hidden="true"></div>
                   <div class="front-type" data-plane="number" aria-hidden="true">02</div>
                   <div class="product" data-plane="image" role="img" aria-label="Óculos de sol retangulares com armação preta e lentes cinza."></div>
                   <div class="slide-title" data-plane="title"><p class="micro">02 / Óculos de sol</p><h3 id="modelo-02">Noir</h3></div>
@@ -120,7 +116,6 @@
                 <div class="slide-index" aria-hidden="true"><span class="micro">Modelo / 03</span><span class="index-number">03</span><span class="micro">Grau</span></div>
                 <div class="slide-stage">
                   <div class="back-type" data-plane="ground" aria-hidden="true">CRISTAL</div>
-                  <div class="orbit" data-plane="orbit" aria-hidden="true"></div>
                   <div class="front-type" data-plane="number" aria-hidden="true">03</div>
                   <div class="product" data-plane="image" role="img" aria-label="Óculos de grau redondos em acetato translúcido cor champanhe."></div>
                   <div class="slide-title" data-plane="title"><p class="micro">03 / Óculos de grau</p><h3 id="modelo-03">Cristal</h3></div>
@@ -132,7 +127,6 @@
                 <div class="slide-index" aria-hidden="true"><span class="micro">Modelo / 04</span><span class="index-number">04</span><span class="micro">Sol</span></div>
                 <div class="slide-stage">
                   <div class="back-type" data-plane="ground" aria-hidden="true">METAL</div>
-                  <div class="orbit" data-plane="orbit" aria-hidden="true"></div>
                   <div class="front-type" data-plane="number" aria-hidden="true">04</div>
                   <div class="product" data-plane="image" role="img" aria-label="Óculos de sol aviador dourados com lentes em degradê âmbar."></div>
                   <div class="slide-title" data-plane="title"><p class="micro">04 / Óculos de sol</p><h3 id="modelo-04">Aviador</h3></div>
@@ -161,15 +155,13 @@
     <section class="focus-section" id="pela-lente" aria-labelledby="focus-title">
       <div class="focus-layout inset">
         <div class="focus-copy">
-          <div>
-            <p class="eyebrow">02 / Teste de nitidez</p>
-            <h2 id="focus-title">Pela <em>lente.</em></h2>
-          </div>
+          <h2 id="focus-title">Pela <em>lente.</em></h2>
           <div class="focus-actions">
             <p id="focus-instructions" hidden>Role a página para encaixar a armação.</p>
             <button class="pill pill--orange focus-toggle" type="button" aria-controls="focus-scene" hidden>
               <span>Colocar os óculos</span><span class="pill-arrow" aria-hidden="true">↗</span>
             </button>
+            <span class="focus-state visually-hidden" role="status" hidden>Sem óculos</span>
           </div>
         </div>
 
@@ -213,20 +205,12 @@
               </g>
             </svg>
           </div>
-          <figcaption class="focus-caption micro">
-            <span class="focus-state" role="status" hidden>Sem óculos</span>
-            <span>Simulação visual</span>
-          </figcaption>
         </figure>
       </div>
     </section>
 
     <section class="guide inset" id="guia" aria-labelledby="guide-title">
-      <div class="guide-heading">
-        <p class="eyebrow">03 / Guia de armações</p>
-        <h2 id="guide-title">O que faz uma armação <em>ser sua?</em></h2>
-        <a class="pill pill--outline" href="#lookbook">Rever o lookbook <span class="pill-arrow" aria-hidden="true">↗</span></a>
-      </div>
+      <h2 id="guide-title">O que faz uma armação <em>ser sua?</em></h2>
       <ol class="guide-list">
         <li><span class="micro">01</span><div><h3>Formato</h3><p>Compare a presença de uma frente quadrada com a suavidade dos aros redondos.</p></div></li>
         <li><span class="micro">02</span><div><h3>Material</h3><p>Observe a cor em camadas do acetato e o traço mais fino dos aros de metal.</p></div></li>
@@ -236,10 +220,7 @@
 
     <section class="reviews inset" id="avaliacoes" aria-labelledby="reviews-title">
       <div class="reviews-header">
-        <div>
-          <p class="eyebrow">Avaliações do Google</p>
-          <h2 id="reviews-title">O que dizem <em>nossos clientes.</em></h2>
-        </div>
+        <h2 id="reviews-title">O que dizem <em>nossos clientes.</em></h2>
         <div class="reviews-summary">
           <p class="reviews-rating"><strong>5,0</strong><span class="review-stars" aria-label="de 5 estrelas">★★★★★</span></p>
           <p class="micro">82 avaliações · Consulta em <time datetime="2026-11-10">10/11/2026</time></p>
@@ -267,9 +248,9 @@
   </main>
 
   <footer class="site-footer inset">
-    <a class="wordmark" href="#abertura"><img class="brand-logo" src="assets/logo-caetano.jpg" width="150" height="150" loading="lazy" alt=""><span>Óticas <i>Caetano</i></span></a>
+    <a class="wordmark" href="#inicio"><img class="brand-logo" src="assets/logo-caetano.jpg" width="150" height="150" loading="lazy" alt=""><span>Óticas <i>Caetano</i></span></a>
     <p class="micro">Lookbook editorial · Imagens e modelos ilustrativos</p>
-    <a class="back-to-top" href="#abertura">Voltar ao topo <span aria-hidden="true">↑</span></a>
+    <a class="back-to-top" href="#inicio">Voltar ao topo <span aria-hidden="true">↑</span></a>
   </footer>
 </body>
 </html>

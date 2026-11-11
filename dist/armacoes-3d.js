@@ -11,7 +11,7 @@ const eyewearView = (() => {
     cristal: { profile: "round", frame: 0xe6bd85, lens: 0xffedd6, roughness: .19, lensOpacity: .20, rim: .09, translucent: true },
     aviador: { profile: "aviator", frame: 0xd9a353, lens: 0x976238, roughness: .23, lensOpacity: .78, rim: .038, metal: true }
   };
-  let renderer, scene, camera, unavailable;
+  let renderer, scene, camera, templeMark, unavailable;
 
   function makeLighting() {
     const image = document.createElement("canvas");
@@ -160,6 +160,45 @@ const eyewearView = (() => {
     return geometry;
   }
 
+  function addTempleMark(parent, curve, radius, color) {
+    if (!templeMark) {
+      const image = document.createElement("canvas");
+      image.width = 512;
+      image.height = 112;
+      const ink = image.getContext("2d");
+      ink.font = "700 96px Arial, sans-serif";
+      ink.textAlign = "center";
+      ink.textBaseline = "middle";
+      ink.fillStyle = "#fff";
+      ink.fillText("CAETANO", 256, 60, 488);
+      templeMark = new three.CanvasTexture(image);
+      templeMark.encoding = three.sRGBEncoding;
+    }
+
+    const geometry = new three.PlaneGeometry(1, 1, 16, 4);
+    const vertices = geometry.attributes.position;
+    const uv = geometry.attributes.uv;
+    const outward = new three.Vector3();
+    const up = new three.Vector3();
+    for (let i = 0; i < vertices.count; i++) {
+      const step = .20 + uv.getX(i) * .27;
+      const center = curve.getPointAt(step);
+      const tangent = curve.getTangentAt(step);
+      outward.set(1, 0, 0).addScaledVector(tangent, -tangent.x).normalize();
+      up.crossVectors(outward, tangent);
+      const angle = (uv.getY(i) - .5) * 1.12;
+      const surface = radius * (1 - step * .41) + .002;
+      outward.multiplyScalar(Math.cos(angle)).addScaledVector(up, Math.sin(angle));
+      outward.y *= 1.66;
+      center.addScaledVector(outward, surface);
+      vertices.setXYZ(i, center.x, center.y, center.z);
+    }
+    const ink = new three.MeshBasicMaterial({ color, map: templeMark, alphaTest: .18, transparent: true, depthWrite: false, toneMapped: false });
+    const mark = new three.Mesh(geometry, ink);
+    mark.renderOrder = 1;
+    parent.add(mark);
+  }
+
   function tube(parent, points, radius, material, taper = false) {
     const curve = new three.CatmullRomCurve3(points.map(point => new three.Vector3(...point)));
     const segments = 36;
@@ -183,6 +222,7 @@ const eyewearView = (() => {
       parent.add(tip);
     }
     parent.add(new three.Mesh(geometry, material));
+    return curve;
   }
 
   function buildModel(variant) {
@@ -216,7 +256,10 @@ const eyewearView = (() => {
       half.add(rivet);
       model.add(half);
 
-      tube(model, [[sign * 1.68, .34, .62], [sign * 1.79, .34, .40], [sign * 1.86, .30, -.44], [sign * 1.8, .24, -1.28], [sign * 1.67, -.08, -1.90]], variant.metal ? .035 : .080, frame, true);
+      const radius = variant.metal ? .035 : .080;
+      const temple = tube(model, [[sign * 1.68, .34, .62], [sign * 1.79, .34, .40], [sign * 1.86, .30, -.44], [sign * 1.8, .24, -1.28], [sign * 1.67, -.08, -1.90]], radius, frame, true);
+      // Positive X is the wearer's left side when the lenses face forward.
+      if (sign === 1) addTempleMark(model, temple, radius, variant.translucent || variant.metal ? 0x34201a : 0xffe2ae);
       const hardware = new three.Mesh(new three.BoxGeometry(.13, .12, .22), hinge);
       hardware.position.set(sign * 1.77, .31, .30);
       model.add(hardware);
@@ -224,9 +267,33 @@ const eyewearView = (() => {
 
     tube(model, [[-.30, .21, .63], [-.15, .34, .67], [0, .37, .68], [.15, .34, .67], [.30, .21, .63]], variant.metal ? .031 : .083, frame);
     if (variant.metal) tube(model, [[-.52, .42, .60], [-.26, .54, .63], [0, .56, .65], [.26, .54, .63], [.52, .42, .60]], .029, frame);
+    const { min, max } = new three.Box3().setFromObject(model);
+    const corners = [];
+    for (const x of [min.x, max.x]) {
+      for (const y of [min.y, max.y]) {
+        for (const z of [min.z, max.z]) corners.push(new three.Vector3(x, y, z));
+      }
+    }
     model.visible = false;
     scene.add(model);
-    return { model, lenses };
+    return { model, lenses, corners };
+  }
+
+  function frameCatalogModel(corners, rotation, verticalSlope) {
+    const viewBounds = new three.Box3();
+    const rotated = corners.map(corner => corner.clone().applyQuaternion(rotation));
+    rotated.forEach(corner => viewBounds.expandByPoint(corner));
+    const center = viewBounds.getCenter(new three.Vector3());
+    const horizontalSlope = verticalSlope * camera.aspect;
+    let cameraZ = -Infinity;
+    // Fit each corner at its own depth so a temple pointing toward the camera stays in frame.
+    for (const corner of rotated) {
+      const fitX = Math.abs(corner.x - center.x) / (horizontalSlope * .86);
+      const fitY = Math.abs(corner.y - center.y) / (verticalSlope * .82);
+      cameraZ = Math.max(cameraZ, corner.z + Math.max(fitX, fitY));
+    }
+    camera.position.set(center.x, center.y, cameraZ);
+    camera.lookAt(center);
   }
 
   function paint(canvas, name, yaw, pitch, separation = 0) {
@@ -246,7 +313,7 @@ const eyewearView = (() => {
     if (renderer.domElement.width !== viewWidth || renderer.domElement.height !== viewHeight) renderer.setSize(viewWidth, viewHeight, false);
 
     if (!models.has(name)) models.set(name, buildModel(variants[name]));
-    const { model, lenses } = models.get(name);
+    const { model, lenses, corners } = models.get(name);
     model.visible = true;
     model.rotation.set(pitch, yaw, -.035);
     for (const { mount, sign } of lenses) {
@@ -255,11 +322,16 @@ const eyewearView = (() => {
     }
 
     camera.aspect = width / height;
-    const span = name === "wayfarer" ? 5.65 + separation * 1.95 : 4.55;
-    const heightNeeded = name === "wayfarer" ? 2.38 + separation * .72 : 2.52;
-    const distance = Math.max(heightNeeded, span / camera.aspect) / (2 * Math.tan(three.MathUtils.degToRad(camera.fov / 2)));
-    camera.position.set(0, .42 + separation * .29, distance);
-    camera.lookAt(0, separation * .22, -.33);
+    const verticalSlope = Math.tan(three.MathUtils.degToRad(camera.fov / 2));
+    if (name === "wayfarer") {
+      const span = 5.65 + separation * 1.95;
+      const heightNeeded = 2.38 + separation * .72;
+      const distance = Math.max(heightNeeded, span / camera.aspect) / (2 * verticalSlope);
+      camera.position.set(0, .42 + separation * .29, distance);
+      camera.lookAt(0, separation * .22, -.33);
+    } else {
+      frameCatalogModel(corners, model.quaternion, verticalSlope);
+    }
     camera.updateProjectionMatrix();
     renderer.render(scene, camera);
     model.visible = false;
