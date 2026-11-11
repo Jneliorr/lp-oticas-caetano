@@ -303,6 +303,12 @@ body:has(.opening.is-current) .site-header { visibility: hidden; }
 .review-card { display: grid; grid-template-rows: auto 1fr auto; gap: 16px; margin: 0; padding: clamp(17px, 2.8vw, 34px); border: 1px solid var(--line); background: #141210; }
 .review-card blockquote { margin: 0; font: 550 clamp(1.23rem, 2vw, 1.85rem)/1.28 var(--display); }
 .review-card figcaption { color: var(--muted); font-size: .86rem; }
+.instagram { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 24px; padding-block: clamp(44px, 7vw, 94px); border-top: 1px solid var(--line); scroll-margin-top: var(--header-height); }
+.instagram h2 { font: 700 clamp(2.8rem, 6vw, 6.4rem)/.98 var(--display); letter-spacing: -.025em; }
+.instagram-posts { flex-basis: 100%; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 22px; margin: 0; padding: 0; list-style: none; }
+.instagram-posts li { min-width: 0; border: 1px solid var(--line); background: var(--surface); }
+.instagram-posts iframe { display: block; width: 100%; height: clamp(460px, 44vw, 620px); border: 0; color-scheme: light; }
+.instagram-posts a { display: block; padding: 12px 16px; text-decoration: underline; }
 .site-footer { display: flex; align-items: center; justify-content: space-between; gap: 18px; min-height: 98px; padding-block: 17px; border-top: 1px solid var(--line); background: var(--surface); }
 .back-to-top { font-size: .84rem; }
 .back-to-top span { color: var(--orange); margin-left: 4px; }
@@ -369,7 +375,6 @@ body:has(.opening.is-current) .site-header { visibility: hidden; }
   .guide h2 { font-size: clamp(2.9rem, 12vw, 4.3rem); }
   .reviews-grid { grid-template-columns: 1fr; gap: 10px; }
   .site-footer { flex-wrap: wrap; }
-  .site-footer p { flex: 1 0 100%; order: 1; }
 }
 
 @media (max-width: 375px) {
