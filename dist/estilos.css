@@ -140,7 +140,8 @@ body:has(.opening.is-current) .site-header { visibility: hidden; }
 .opening-actions { z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-top: 14px; border-top: 1px solid var(--line); }
 .opening-actions .pill { margin-inline-start: auto; }
 
-.hero {
+.hero { position: relative; }
+.hero-slide {
   position: relative;
   isolation: isolate;
   display: flex;
@@ -149,7 +150,7 @@ body:has(.opening.is-current) .site-header { visibility: hidden; }
   padding: calc(var(--header-height) + 24px) var(--gutter) 95px;
   background: #170d09;
 }
-.hero-photo, .hero::after { position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; }
+.hero-photo, .hero-editorial::after { position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; }
 .hero-photo {
   inset-inline-start: auto;
   width: min(68%, 1100px);
@@ -157,7 +158,7 @@ body:has(.opening.is-current) .site-header { visibility: hidden; }
   object-position: 54% 39%;
   mask-image: linear-gradient(90deg, transparent 0%, #000 40%);
 }
-.hero::after {
+.hero-editorial::after {
   content: "";
   background: linear-gradient(90deg, rgba(11, 8, 7, .78), rgba(11, 8, 7, .28) 49%, transparent 72%), linear-gradient(0deg, rgba(11, 11, 12, .9), transparent 31%);
 }
@@ -167,6 +168,44 @@ body:has(.opening.is-current) .site-header { visibility: hidden; }
 .hero h1 em { display: inline-block; padding-right: .1em; }
 .hero-description { max-width: 345px; margin-top: 27px; color: #e2dad1; font-size: 1.08rem; }
 .hero-cta { margin-top: 27px; }
+.hero-promo {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(24px, 5vw, 80px);
+  background: radial-gradient(ellipse at 77% 40%, #612d1b, #21130e 42%, var(--ink) 78%);
+}
+.hero-promo h2 { margin-top: 14px; font: 750 clamp(3.25rem, 7.6vw, 8rem)/.97 var(--display); letter-spacing: -.025em; }
+.hero-promo-photo {
+  display: block;
+  justify-self: center;
+  width: min(100%, 440px, 44svh);
+  height: auto;
+  border-radius: 14px;
+}
+.hero-controls {
+  position: absolute;
+  z-index: 1;
+  bottom: 20px;
+  left: var(--gutter);
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--ink);
+}
+.hero-controls button {
+  min-height: 40px;
+  padding-inline: 14px;
+  border: 0;
+  border-radius: 999px;
+  color: var(--bone);
+  background: transparent;
+  font-weight: 650;
+  font-size: .82rem;
+}
+.hero-controls button:hover { background: var(--surface); }
+.hero-controls button[aria-pressed="true"] { color: var(--ink); background: var(--bone); }
 .scroll-cue { display: inline-flex; align-items: center; gap: 10px; font: 600 .69rem/1 var(--sans); letter-spacing: .15em; text-transform: uppercase; white-space: nowrap; }
 .scroll-cue:hover { color: var(--orange); }
 .scroll-icon { display: grid; place-items: center; width: 29px; height: 29px; border: 1px solid var(--line); border-radius: 50%; color: var(--orange); font-size: .94rem; }
@@ -303,14 +342,18 @@ body:has(.opening.is-current) .site-header { visibility: hidden; }
 .review-card { display: grid; grid-template-rows: auto 1fr auto; gap: 16px; margin: 0; padding: clamp(17px, 2.8vw, 34px); border: 1px solid var(--line); background: #141210; }
 .review-card blockquote { margin: 0; font: 550 clamp(1.23rem, 2vw, 1.85rem)/1.28 var(--display); }
 .review-card figcaption { color: var(--muted); font-size: .86rem; }
-.instagram { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 24px; padding-block: clamp(44px, 7vw, 94px); border-top: 1px solid var(--line); scroll-margin-top: var(--header-height); }
+.instagram { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 24px; padding-block: clamp(44px, 7vw, 94px); color: var(--ink); background: #fff; color-scheme: light; scroll-margin-top: var(--header-height); }
 .instagram h2 { font: 700 clamp(2.8rem, 6vw, 6.4rem)/.98 var(--display); letter-spacing: -.025em; }
+.instagram h2 em { color: #b43b0f; }
+.instagram-tagline { margin-top: 14px; color: #42342d; font-size: clamp(1rem, 2vw, 1.3rem); font-weight: 650; }
+.instagram .pill--outline { border-color: #dad3cf; }
+.instagram .pill--outline:hover { background: #f6f2ef; }
 .instagram-posts { flex-basis: 100%; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: start; gap: 22px; margin: 0; padding: 0; list-style: none; }
-.instagram-posts li { min-width: 0; border-radius: 12px; overflow: hidden; background: var(--surface); }
+.instagram-posts li { min-width: 0; border: 1px solid #e5e0dd; border-radius: 12px; overflow: hidden; background: #fff; }
 .instagram-posts .instagram-media { display: block; width: 100% !important; min-width: 0 !important; max-width: none !important; margin: 0 !important; border: 0 !important; }
 .instagram-posts iframe { color-scheme: light; }
-.instagram-posts blockquote a { display: flex; justify-content: space-between; gap: 12px; padding: 18px; color: var(--bone); }
-.instagram-posts blockquote a:hover, .instagram-posts blockquote a span { color: var(--orange); }
+.instagram-posts blockquote a { display: flex; justify-content: space-between; gap: 12px; padding: 18px; color: var(--ink); }
+.instagram-posts blockquote a:hover, .instagram-posts blockquote a span { color: #b43b0f; }
 
 @media (max-width: 1100px) {
   .instagram-posts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -347,9 +390,11 @@ body:has(.opening.is-current) .site-header { visibility: hidden; }
 }
 
 @media (max-width: 580px) {
-  .hero { align-items: end; min-height: clamp(660px, 88svh, 840px); padding-bottom: 48px; }
+  .hero-editorial { align-items: end; min-height: clamp(660px, 88svh, 840px); }
+  .hero-promo { grid-template-columns: minmax(0, 1fr); align-content: center; }
+  .hero-promo-photo { width: min(100%, 320px, 46svh); }
   .hero-photo { width: 100%; height: 82%; object-position: 55% 41%; mask-image: none; }
-  .hero::after { background: linear-gradient(0deg, #0b0b0c 6%, rgba(16, 9, 7, .96) 24%, rgba(16, 9, 7, .63) 47%, transparent 72%), linear-gradient(90deg, rgba(11, 8, 7, .24), transparent); }
+  .hero-editorial::after { background: linear-gradient(0deg, #0b0b0c 6%, rgba(16, 9, 7, .96) 24%, rgba(16, 9, 7, .63) 47%, transparent 72%), linear-gradient(90deg, rgba(11, 8, 7, .24), transparent); }
   .hero-content { width: 100%; }
   .hero-content .eyebrow { margin-bottom: 14px; }
   .hero h1 { font-size: clamp(2.8rem, 12.2vw, 4.5rem); }

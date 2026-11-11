@@ -7,7 +7,7 @@
   <meta name="description" content="Explore óculos de grau e de sol em um lookbook interativo da Óticas Caetano.">
   <title>Óticas Caetano | Seu olhar, sua assinatura</title>
   <link rel="icon" href="assets/logo-caetano.jpg" type="image/jpeg">
-  <link rel="stylesheet" href="estilos.css?v=2">
+  <link rel="stylesheet" href="estilos.css?v=3">
   <script src="assets/three-r128.min.js" defer></script>
   <script src="armacoes-3d.js" defer></script>
   <!-- Abertura New Wayfarer pausada. Reative este script junto com a seção #abertura.
@@ -15,6 +15,7 @@
   -->
   <script src="lookbook.js" defer></script>
   <script src="foco.js" defer></script>
+  <script src="destaques.js" defer></script>
 </head>
 <body>
   <a class="skip" href="#inicio">Pular para o conteúdo</a>
@@ -61,13 +62,27 @@
     </section>
     -->
 
-    <section class="hero" id="inicio" aria-labelledby="hero-title" tabindex="-1">
-      <img class="hero-photo" src="assets/fotoprincipal.jpg" width="1080" height="1350" fetchpriority="high" alt="Mulher ajustando óculos de sol com armação tartaruga.">
-      <div class="hero-content">
-        <p class="eyebrow"><span class="signal"></span> Óculos de grau &amp; sol</p>
-        <h1 id="hero-title">Seu olhar,<br><em>sua assinatura.</em></h1>
-        <p class="hero-description">Do acetato marcante ao metal delicado. Explore armações que dão outro contorno ao seu olhar.</p>
-        <a class="pill pill--orange hero-cta" href="#lookbook">Explorar o lookbook <span class="pill-arrow" aria-hidden="true">↘</span></a>
+    <section class="hero" id="inicio" aria-label="Destaques das Óticas Caetano" tabindex="-1">
+      <div class="hero-slide hero-editorial" id="destaque-colecao">
+        <img class="hero-photo" src="assets/fotoprincipal.jpg" width="1080" height="1350" fetchpriority="high" alt="Mulher ajustando óculos de sol com armação tartaruga.">
+        <div class="hero-content">
+          <p class="eyebrow"><span class="signal"></span> Óculos de grau &amp; sol</p>
+          <h1 id="hero-title">Seu olhar,<br><em>sua assinatura.</em></h1>
+          <p class="hero-description">Do acetato marcante ao metal delicado. Explore armações que dão outro contorno ao seu olhar.</p>
+          <a class="pill pill--orange hero-cta" href="#lookbook">Explorar o lookbook <span class="pill-arrow" aria-hidden="true">↘</span></a>
+        </div>
+      </div>
+      <div class="hero-slide hero-promo" id="destaque-black-friday" hidden>
+        <div class="hero-promo-copy">
+          <p class="eyebrow">Black Friday</p>
+          <h2>Black View <em>Caetano.</em></h2>
+          <a class="pill pill--orange hero-cta" href="https://www.instagram.com/p/DfkSRUrmFD9/?img_index=1" target="_blank" rel="noopener">Ver publicação da promoção <span class="pill-arrow" aria-hidden="true">↗</span></a>
+        </div>
+        <img class="hero-promo-photo" src="assets/black-friday-caetano.jpg" width="1080" height="1350" loading="lazy" alt="Campanha Black View Caetano: 60% off, com condições especiais para encontrar sua armação.">
+      </div>
+      <div class="hero-controls" role="group" aria-label="Escolher destaque" hidden>
+        <button type="button" aria-controls="destaque-colecao" aria-pressed="true">Coleção</button>
+        <button type="button" aria-controls="destaque-black-friday" aria-pressed="false">Black Friday</button>
       </div>
     </section>
 
@@ -245,7 +260,10 @@
       <a class="pill pill--outline" href="https://share.google/0wV281jASCNRXgkgc" target="_blank" rel="noopener">Ver todas no Google <span class="pill-arrow" aria-hidden="true">↗</span></a>
     </section>
     <section class="instagram inset" id="instagram" aria-labelledby="instagram-title">
-      <h2 id="instagram-title">No <em>Instagram.</em></h2>
+      <div>
+        <h2 id="instagram-title">No <em>Instagram.</em></h2>
+        <p class="instagram-tagline">Se pedir luz, não esqueça dos óculos!</p>
+      </div>
       <a class="pill pill--outline" href="https://www.instagram.com/oticascaetanorr/" target="_blank" rel="noopener">@oticascaetanorr <span class="pill-arrow" aria-hidden="true">↗</span></a>
       <ul class="instagram-posts">
         <li>
